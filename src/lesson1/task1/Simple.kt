@@ -1,4 +1,4 @@
-@file:Suppress("UNUSED_PARAMETER")
+    @file:Suppress("UNUSED_PARAMETER")
 package lesson1.task1
 
 import java.lang.Math.*
@@ -68,7 +68,8 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double = (sagenes
  * Пользователь задает угол в градусах, минутах и секундах (например, 36 градусов 14 минут 35 секунд).
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
-fun angleInRadian(grad: Int, min: Int, sec: Int): Double = (grad * Math.PI / 180) + (min * Math.PI / (180*60)) + (sec * Math.PI / (180*60*60))
+fun angleInRadian(grad: Int, min: Int, sec: Int): Double =
+(grad * Math.PI / 180) + (min * Math.PI / (180*60)) + (sec * Math.PI / (180*60*60))
 
 /**
  * Тривиальная
@@ -76,7 +77,8 @@ fun angleInRadian(grad: Int, min: Int, sec: Int): Double = (grad * Math.PI / 180
  * Найти длину отрезка, соединяющего точки на плоскости с координатами (x1, y1) и (x2, y2).
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
-fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt(sqr(x2-x1)+sqr(y2-y1))
+fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double =
+sqrt (sqr (x2 - x1) + sqr (y2 - y1) )
 
 /**
  * Простая
@@ -93,7 +95,8 @@ fun thirdDigit(number: Int): Int = number / 100 % 10
  * прибыл на станцию назначения в h2 часов m2 минут того же дня (например в 13:01).
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
-fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int = (hoursArrive - hoursDepart) * 60 + minutesArrive - minutesDepart
+fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int =
+(hoursArrive - hoursDepart) * 60 + minutesArrive - minutesDepart
 
 /**
  * Простая
@@ -104,7 +107,7 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double{
     var result = initial.toDouble()
-    val per : Double = percent /100.0
+    val per: Double = percent /100.0
     for (i in 1..3) {
         result += result * per
     }
