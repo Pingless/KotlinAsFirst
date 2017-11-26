@@ -2,6 +2,7 @@
 package lesson3.task1
 
 import java.lang.Math.abs
+import java.lang.StrictMath.pow
 
 /**
  * Пример
@@ -162,7 +163,23 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    var xClean = x
+    var counter = 1
+    var dif = if(xClean > 2* Math.PI) -2.0 else 2.0
+    while (xClean > 2 * Math.PI || xClean < 0)
+        xClean += dif * Math.PI
+    var res = xClean
+    dif = xClean
+    var mn = -1
+    while (abs(dif) > eps) {
+        dif = mn * pow(xClean,2.0*counter+1)/ factorial(2*counter+1)
+        res += dif
+        counter++
+        mn *= -1
+    }
+    return res
+}
 
 /**
  * Средняя

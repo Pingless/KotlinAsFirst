@@ -66,7 +66,24 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+
+    val parts = str.split(" ")
+    if (parts.size != 3) return ""
+    try {
+        val d = parts[0].toInt()
+        val y = parts[2].toInt()
+
+        val x = listOf("января", "февраля", "марта", "апреля",
+                "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+        if ((d in 1..31) && (parts[1] in x)) {
+            val m = x.indexOf(parts[1]) + 1
+            return String.format("%02d.%02d.%d", d, m, y)
+        } else return ""
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+}
 
 /**
  * Средняя
@@ -75,7 +92,23 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val x = listOf("января", "февраля", "марта", "апреля", "мая", "июня",
+            "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val parts = digital.split(".")
+    if (parts.size != 3) return ""
+    try {
+        val d = parts[0].toInt()
+        val m1 = parts[1].toInt()
+        val y = parts[2].toInt()
+        if ((d in 1..31) && (m1 in 1..12)) {
+            val m = x[parts[1].toInt() - 1]
+            return String.format("%d %s %d", d, m, y)
+        } else return ""
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+}
 
 /**
  * Средняя
@@ -89,7 +122,22 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+
+    var n = mutableListOf<String>()
+    if (phone[0] == '+') n.add("+")
+    val a = phone.split(" ", "-", "(", ")", "+", "")
+    val b = listOf("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "")
+    for (element in a) {
+        if (element in b) n.add(element)
+        else {
+            n = mutableListOf("")
+            break
+        }
+    }
+    return n.joinToString(separator = "")
+
+}
 
 /**
  * Средняя
@@ -101,7 +149,27 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    var x = -1
+    var t: String
+    var u: Int
+    try {
+        if (jumps.matches(Regex("[-% 0-9]"))) {
+            t = jumps.replace(Regex("[-%]"), "")
+            var y = t.split(" ").toMutableList()
+            y.remove("")
+            for (element in y) {
+                u = element.toInt()
+                if (u > x) x = u
+
+            }
+        }
+    } catch (e: NumberFormatException) {
+        return -1
+    }
+
+    return x
+}
 
 /**
  * Сложная
