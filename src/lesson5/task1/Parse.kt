@@ -122,22 +122,9 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String {
-
-    var n = mutableListOf<String>()
-    if (phone[0] == '+') n.add("+")
-    val a = phone.split(" ", "-", "(", ")", "+", "")
-    val b = listOf("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "")
-    for (element in a) {
-        if (element in b) n.add(element)
-        else {
-            n = mutableListOf("")
-            break
-        }
-    }
-    return n.joinToString(separator = "")
-
-}
+fun flattenPhoneNumber(phone: String): String =
+        if (phone.matches(Regex("""[\d\s\t\n()+-]+"""))) phone.filter { it !in "\t\n()- " }
+        else ""
 
 /**
  * Средняя
@@ -149,27 +136,9 @@ fun flattenPhoneNumber(phone: String): String {
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int {
-    var x = -1
-    var t: String
-    var u: Int
-    try {
-        if (jumps.matches(Regex("[-% 0-9]"))) {
-            t = jumps.replace(Regex("[-%]"), "")
-            var y = t.split(" ").toMutableList()
-            y.remove("")
-            for (element in y) {
-                u = element.toInt()
-                if (u > x) x = u
+fun bestLongJump(jumps: String): Int = TODO()
 
-            }
-        }
-    } catch (e: NumberFormatException) {
-        return -1
-    }
 
-    return x
-}
 
 /**
  * Сложная
@@ -203,8 +172,16 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
-
+fun firstDuplicateIndex(str: String): Int {
+    val parts = str.toLowerCase().split(" ")
+    var i = -1
+    for (j in 0..parts.size - 2) {
+        i++
+        if (parts[j] == parts[j + 1]) return i
+        i += parts[j].length
+    }
+    return i
+}
 /**
  * Сложная
  *
