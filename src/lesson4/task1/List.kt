@@ -148,7 +148,14 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
-fun times(a: List<Double>, b: List<Double>): Double = TODO()
+fun times(a: List<Double>, b: List<Double>): Double {
+    var c = 0.0
+    for (i in 0..a.size - 1) {
+        c += a[i] * b[i]
+    }
+    return c
+}
+
 
 /**
  * Средняя
@@ -219,7 +226,16 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    val x = mutableListOf<Int>()
+    var b = n
+    if (n == 0) return listOf(0)
+    while (b > 0) {
+        x.add(b % base)
+        b /= base
+    }
+    return x.reversed()
+}
 
 /**
  * Сложная
@@ -229,7 +245,17 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    val s: List<Int>
+    var st1: String = ""
+    if (n == 0) st1 = ""
+    s = convert(n, base)
+    for (i in 0..s.size - 1) {
+        if (s[i] > 9) st1 += (87 + s[i]).toChar()
+        else st1 += (s[i]).toString()
+    }
+    return st1
+}
 
 /**
  * Средняя
@@ -259,7 +285,22 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    var result = ""
+    var n2 = n
+    val rom = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
+    val dec = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
+    var i = 12
+    while (n2 != 0) {
+        while (n2 >= dec[i]) {
+            n2 -= dec[i]
+            result += rom[i]
+        }
+        i--
+    }
+    return result
+}
+
 
 /**
  * Очень сложная
