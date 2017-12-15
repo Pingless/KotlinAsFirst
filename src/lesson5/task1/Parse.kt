@@ -136,8 +136,19 @@ fun flattenPhoneNumber(phone: String): String =
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
-
+fun bestLongJump(jumps: String): Int {
+    val numbers = Regex("""[\%\-\s]""").replace(jumps, "")
+    if (numbers.contains(Regex("""\D"""))) return -1
+    if (numbers.isEmpty()) return  -1
+    var numbers1 = numbers.toLong()
+    var listOfNumbers = mutableListOf<Long>()
+    while (numbers1 > 0) {
+        listOfNumbers.add(0, (numbers1 % 1000))
+        numbers1 /= 1000
+    }
+    val maximum = listOfNumbers.max()
+    return maximum!!.toInt()
+}
 
 
 /**
@@ -150,7 +161,23 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    var max = "0"
+    val verify = Regex("""[\+\%\-\s]""").replace(jumps, "")
+    if (verify.contains(Regex("""\D"""))) return -1
+    var string = Regex("""[\%\-]""").replace(jumps, "")
+    string = Regex("""(\s)\+""").replace(string, "+")
+    val parts = string.split(" ")
+    for (part in parts) {
+        if (part.contains(Regex("""([0-9]*\+)"""))) {
+            val result = Regex("""[\+]""").replace(part, "")
+            if (result.toLong() > max.toLong()) {
+                max = result
+            }
+        }
+    }
+    if (max.toInt() != 0) return max.toInt() else return -1
+}
 
 /**
  * Сложная
@@ -161,7 +188,29 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val parts = expression.split(" ")
+    var result = 0
+    try {
+        var halfResult = parts[0].toInt()
+        for (i in 1 until parts.size) {
+            val firstElement = parts[i]
+            if (firstElement == "+") {
+                halfResult += parts[i + 1].toInt()
+            }
+            if (firstElement == "-") {
+                halfResult -= parts[i + 1].toInt()
+            }
+            if (firstElement.contains(Regex("""([0-9]*)"""))) {
+                continue
+            }
+        }
+        result = halfResult
+    } catch (e: IllegalArgumentException) {
+        throw IllegalArgumentException()
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -193,7 +242,27 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    var name = mutableListOf<String>("")
+    var cost = mutableListOf<Double>(0.0)
+    var max = 0.0
+    if (description.isNotEmpty()) {
+        val verify = Regex("""[[а-яА-Я]\s\.\;]""").replace(description, "")
+        if (verify.contains(Regex("""\D"""))) return ""
+        val parts = description.split("; ")
+        for (part in parts) {
+            val secondPart = part.split(" ")
+            if (secondPart[1].toDouble() > max) {
+                name.remove(name.last())
+                cost.remove(cost.last())
+                name.add(0, secondPart[0])
+                cost.add(0, secondPart[1].toDouble())
+                max = secondPart[1].toDouble()
+            }
+        }
+    }
+    return name.joinToString()
+}
 
 /**
  * Сложная
@@ -206,7 +275,23 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int {
+    val form = Regex("""[CDILMVX]+""")
+    val classic = mapOf('I' to 1, 'V' to 5, 'X' to 10, 'L' to 50, 'C' to 100,
+            'D' to 500, 'M' to 1000)
+    var result = 0
+    var bigger = 0
+    if (!roman.matches(form)) return -1
+    for (i in roman.length - 1 downTo 0) {
+        if (classic[roman[i]]!! < bigger)
+            result -= classic[roman[i]]!!
+        else {
+            bigger = classic[roman[i]]!!
+            result += bigger
+        }
+    }
+    return result
+}
 
 /**
  * Очень сложная
