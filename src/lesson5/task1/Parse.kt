@@ -137,17 +137,14 @@ fun flattenPhoneNumber(phone: String): String =
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    val numbers = Regex("""[\%\-\s]""").replace(jumps, "")
-    if (numbers.contains(Regex("""\D"""))) return -1
-    if (numbers.isEmpty()) return  -1
-    var numbers1 = numbers.toLong()
-    var listOfNumbers = mutableListOf<Long>()
-    while (numbers1 > 0) {
-        listOfNumbers.add(0, (numbers1 % 1000))
-        numbers1 /= 1000
+    val q = jumps.split(" ", "%", "-").filter { it != "" }
+    var max = -1
+    try {
+        for (i in q) if (i.toInt() > max) max = i.toInt()
+    } catch (e: NumberFormatException) {
+        return -1
     }
-    val maximum = listOfNumbers.max()
-    return maximum!!.toInt()
+    return max
 }
 
 
@@ -162,21 +159,15 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    var max = "0"
-    val verify = Regex("""[\+\%\-\s]""").replace(jumps, "")
-    if (verify.contains(Regex("""\D"""))) return -1
-    var string = Regex("""[\%\-]""").replace(jumps, "")
-    string = Regex("""(\s)\+""").replace(string, "+")
-    val parts = string.split(" ")
-    for (part in parts) {
-        if (part.contains(Regex("""([0-9]*\+)"""))) {
-            val result = Regex("""[\+]""").replace(part, "")
-            if (result.toLong() > max.toLong()) {
-                max = result
-            }
-        }
+    val q = jumps.split(" ", "%", "-").filter { it != "" }
+    var max = -1
+    try {
+        for (k in 0..q.size - 2)
+            if (q[k] != "+" && q[k + 1] == "+" && q[k].toInt() > max) max = q[k].toInt()
+    } catch (e: NumberFormatException) {
+        return -1
     }
-    if (max.toInt() != 0) return max.toInt() else return -1
+    return max
 }
 
 /**
@@ -222,14 +213,14 @@ fun plusMinus(expression: String): Int {
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
 fun firstDuplicateIndex(str: String): Int {
-    val parts = str.toLowerCase().split(" ")
-    var i = -1
-    for (j in 0..parts.size - 2) {
-        i++
-        if (parts[j] == parts[j + 1]) return i
-        i += parts[j].length
+    val b = str.toLowerCase().split(" ")
+    var result = 0
+    if (b.size in 0..1) return -1
+    for (i in 0..b.size - 2) {
+        if (b[i] == b[i + 1] && b[i] != "") return result
+        result += b[i].length + 1
     }
-    return i
+    return -1
 }
 /**
  * Сложная
@@ -242,26 +233,18 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
+
 fun mostExpensive(description: String): String {
-    var name = mutableListOf<String>("")
-    var cost = mutableListOf<Double>(0.0)
+    if (!description.matches(Regex("""(([^\s]+ [0-9]+[.]?[0-9]*[;]?[\s]?)+)"""))) return ""
+    val q = description.split("; ", " ")
+    var k = ""
     var max = 0.0
-    if (description.isNotEmpty()) {
-        val verify = Regex("""[[а-яА-Я]\s\.\;]""").replace(description, "")
-        if (verify.contains(Regex("""\D"""))) return ""
-        val parts = description.split("; ")
-        for (part in parts) {
-            val secondPart = part.split(" ")
-            if (secondPart[1].toDouble() > max) {
-                name.remove(name.last())
-                cost.remove(cost.last())
-                name.add(0, secondPart[0])
-                cost.add(0, secondPart[1].toDouble())
-                max = secondPart[1].toDouble()
-            }
+    for (i in 1..q.size step 2)
+        if (q[i].toDouble() >= max) {
+            max = q[i].toDouble()
+            k = q[i - 1]
         }
-    }
-    return name.joinToString()
+    return k
 }
 
 /**
