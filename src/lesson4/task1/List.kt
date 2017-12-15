@@ -3,6 +3,7 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson3.task1.minDivisor
+import java.lang.StrictMath.pow
 
 /**
  * Пример
@@ -167,7 +168,7 @@ fun times(a: List<Double>, b: List<Double>): Double {
  */
 fun polynom(p: List<Double>, x: Double): Double {
     var sum = 0.0
-    for (i in 0..p.size - 1) {
+    for (i in 0 until p.size) {
         sum += p[i] * Math.pow(x, i.toDouble())
     }
     return sum
@@ -185,7 +186,7 @@ fun polynom(p: List<Double>, x: Double): Double {
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
     var sum = 0.0
-    for (i in 0..list.size - 1) {
+    for (i in 0 until list.size) {
         sum += list[i]
         list[i] = sum
     }
@@ -264,7 +265,18 @@ fun convertToString(n: Int, base: Int): String {
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    var result = 0
+    var list = digits.toMutableList().reversed()
+    var count = 0
+    for (i in list) {
+        var calculate = i * pow(base.toDouble(), count.toDouble()).toInt()
+        result += calculate
+        count++
+    }
+    return result
+}
+
 
 /**
  * Сложная
@@ -286,21 +298,21 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    var result = ""
-    var n2 = n
-    val rom = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
-    val dec = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
-    var i = 12
-    while (n2 != 0) {
-        while (n2 >= dec[i]) {
-            n2 -= dec[i]
-            result += rom[i]
+    var nomer = ""
+    val norm = listOf<Int>(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
+    val rom = listOf<String>("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
+    var natur = n
+    var i = 0
+    while (norm[i] > n) i += 1
+    while (natur > 0) {
+        while (natur - norm[i] >= 0) {
+            nomer += rom[i]
+            natur -= norm[i]
         }
-        i--
+        i += 1
     }
-    return result
+    return nomer
 }
-
 
 /**
  * Очень сложная

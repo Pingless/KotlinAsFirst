@@ -5,6 +5,21 @@ import java.lang.Math.abs
 import java.lang.StrictMath.pow
 
 /**
+ * Вспомогательная
+ *
+ * Наибольший Общий Делитель
+ */
+fun gcd(x: Int, y: Int): Int {
+    var a = x
+    var b = y
+    while (a != 0 && b != 0) {
+        if (a > b) a %= b
+        else b %= a
+    }
+    return a + b
+}
+
+/**
  * Пример
  *
  * Вычисление факториала
@@ -89,20 +104,7 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
-    var n1 = n
-    var m1 = m
-    while (m1 != n1) {
-        if (m1 > n1) {
-            m1 -= n1
-        }
-        if (m1 < n1) {
-            n1 -= m1
-        }
-    }
-    val k = m * n / n1
-    return k
-}
+fun lcm(m: Int, n: Int): Int = n * m / gcd(n, m)
 
 /**
  * Простая
@@ -110,9 +112,10 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var d = 2
-    while (n % d != 0) d++
-    return d
+    for (i in 2..n) {
+        if (n % i == 0) return i
+    }
+    return n
 }
 
 /**
@@ -129,18 +132,11 @@ fun maxDivisor(n: Int): Int = n / minDivisor(n)
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    var m1 = m
-    var n1 = n
-    while (m1 != n1) {
-        if (m1 > n1) {
-            m1 -= n1
-        }
-        if (m1 < n1) {
-            n1 -= m1
-        }
-    }
-    return n1 == 1
+fun isCoPrime(m: Int, n: Int):Boolean {
+    var a: Int = Math.min(m, n)
+    for (i in 2..a)
+        if ( m % i == 0 && n % i == 0) return false
+    return true
 }
 
 /**
@@ -245,21 +241,21 @@ fun squareSequenceDigit(n: Int): Int {
     var x = 1
     var m = 1
     var t: Int
-    var l = n
+    var b = n
     var count = 1
-    while (l > 0) {
+    while (b > 0) {
         m = x * x
         t = m
         while (t >= 10) {
             count++
             t /= 10
         }
-        l -= count
+        b -= count
         count = 1
         x++
     }
-    l = Math.abs(l)
-    m = m / Math.pow(10.0, l * 1.0).toInt() % 10
+    b = Math.abs(b)
+    m = m / Math.pow(10.0, b * 1.0).toInt() % 10
     return m
 }
 

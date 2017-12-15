@@ -109,7 +109,7 @@ fun accountInThreeYears(initial: Int, percent: Int): Double{
     var result = initial.toDouble()
     val per: Double = percent / 100.0
     for (i in 1..3) {
-    result += result * per
+        result += result * per
     }
     return result
 }

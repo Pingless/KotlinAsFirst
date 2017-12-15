@@ -63,18 +63,10 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    if ( a <= r && b <= s )
-        return true
-    else if ( a<= s && b <= r )
-        return true
-    else if ( a<= s && c <= r )
-        return true
-    else if ( a <= r && c <= s )
-        return true
-    else if ( b <= s && c <= r)
-        return true
-    else if ( b <= r && c <= s )
-        return true
-
-    else return false
+    val list = listOf(a, b, c).sorted()
+    return when {
+        list[0] <= s && list[1] <= r -> true
+        list[0] <= r && list[1] <= s -> true
+        else -> false
+    }
 }
