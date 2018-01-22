@@ -121,10 +121,10 @@ fun abs(v: List<Double>): Double {
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double {
-    if (list.isEmpty()) return 0.0
-    return (list.sum() / list.size)
-}
+fun mean(list: List<Double>): Double =
+    if (list.isEmpty()) 0.0
+    else (list.sum() / list.size)
+
 
 /**
  * Средняя
@@ -136,7 +136,7 @@ fun mean(list: List<Double>): Double {
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
     val a = mean(list)
-    for (i in 0..list.size - 1) {
+    for (i in 0 until list.size) {
         list[i] -= a
     }
     return list
@@ -287,7 +287,14 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    val NumList = mutableListOf<Int>()
+    for (i in 0 until str.length ) {
+        if (str[i] in '0' until '9') NumList.add(str[i] - '0')
+        else NumList.add(str[i] - 'a' + 10)
+    }
+    return decimal(NumList, base)
+}
 
 /**
  * Сложная

@@ -2,7 +2,7 @@
 package lesson3.task1
 
 import java.lang.Math.abs
-import java.lang.StrictMath.pow
+import java.lang.StrictMath.*
 
 /**
  * Вспомогательная
@@ -104,6 +104,9 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
+/**
+ * Комментарии неактульны.
+ */
 fun lcm(m: Int, n: Int): Int = n * m / gcd(n, m)
 
 /**
@@ -112,7 +115,7 @@ fun lcm(m: Int, n: Int): Int = n * m / gcd(n, m)
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    for (i in 2..n) {
+    for (i in 2..floor(sqrt(n.toDouble())).toInt()) {
         if (n % i == 0) return i
     }
     return n
@@ -270,20 +273,20 @@ fun fibSequenceDigit(n: Int): Int {
     var x = 1
     var m = 1
     var t: Int
-    var l = n
+    var b = n
     var count = 1
-    while (l > 0) {
+    while (b > 0) {
         m = fib(x)
         t = m
         while (t >= 10) {
             count++
             t /= 10
         }
-        l -= count
+        b -= count
         count = 1
         x++
     }
-    l = Math.abs(l)
-    m = m / Math.pow(10.0, l * 1.0).toInt() % 10
+    b = Math.abs(b)
+    m = m / Math.pow(10.0, b * 1.0).toInt() % 10
     return m
 }

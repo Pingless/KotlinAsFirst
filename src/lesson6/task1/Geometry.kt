@@ -165,14 +165,23 @@ class Line private constructor(val b: Double, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = TODO()
+fun lineBySegment(s: Segment): Line {
+    val corner: Double
+    if (s.begin.x == s.end.x) corner = Math.PI / 2
+    else {
+        val KatetY = s.end.y - s.begin.y
+        val KatetX = s.end.x - s.begin.x
+        corner = Math.atan(KatetY / KatetX)
+    }
+    return Line(s.begin, corner)
+}
 
 /**
  * Средняя
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = TODO()
+fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
 
 /**
  * Сложная
@@ -218,7 +227,12 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
  * (построить окружность по трём точкам, или
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
-fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
+fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
+    val crossAB = bisectorByPoints(a, b)
+    val crossBC = bisectorByPoints(b, c)
+    val centre = crossAB.crossPoint(crossBC)
+    return Circle(centre, centre.distance(a))
+}
 
 
 /**
