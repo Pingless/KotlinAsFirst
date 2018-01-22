@@ -172,7 +172,7 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> = TODO()
 fun kingMoveNumber(start: Square, end: Square): Int {
     when {
         (start.inside() && end.inside()) -> return Math.max(Math.abs(end.column - start.column), Math.abs(end.row - start.row))
-        else -> throw IllegalArgumentException("Incorrect cells")
+        else -> throw IllegalArgumentException()
     }
 }
 
@@ -191,7 +191,36 @@ fun kingMoveNumber(start: Square, end: Square): Int {
  *          kingTrajectory(Square(3, 5), Square(6, 2)) = listOf(Square(3, 5), Square(4, 4), Square(5, 3), Square(6, 2))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun kingTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun kingTrajectory(start: Square, end: Square): List<Square> {
+    when {
+        (kingMoveNumber(start, end) == 0) -> return listOf(start)
+        (kingMoveNumber(start, end) == 1) -> return listOf(start, end)
+    }
+    val Movement = mutableListOf(start)
+    var ColumnMove = 0
+    var RowMove = 0
+    var MoveStep = start
+    while (MoveStep != end) {
+        if (MoveStep.column > end.column) {
+            MoveStep = Square(MoveStep.column - 1, MoveStep.row)
+            ColumnMove ++
+        }
+        if (MoveStep.column < end.column) {
+            MoveStep = Square(MoveStep.column + 1, MoveStep.row)
+            ColumnMove ++
+        }
+        if (MoveStep.row > end.row) {
+            MoveStep = Square(MoveStep.column, MoveStep.row - 1)
+            RowMove ++
+        }
+        if (MoveStep.row < end.row) {
+            MoveStep = Square(MoveStep.column, MoveStep.row + 1)
+            RowMove ++
+        }
+        Movement.add(MoveStep)
+    }
+    return Movement
+}
 
 /**
  * Сложная
@@ -216,8 +245,8 @@ fun kingTrajectory(start: Square, end: Square): List<Square> = TODO()
  * Пример: knightMoveNumber(Square(3, 1), Square(6, 3)) = 3.
  * Конь может последовательно пройти через клетки (5, 2) и (4, 4) к клетке (6, 3).
  */
-fun knightMoveNumber(start: Square, end: Square): Int = TODO()
 
+fun knightMoveNumber(start: Square, end: Square): Int = TODO()
 /**
  * Очень сложная
  *
